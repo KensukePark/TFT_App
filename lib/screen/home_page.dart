@@ -14,6 +14,7 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   var f = NumberFormat('###,###,###,###');
   String file_loc = 'assets/api_key.txt';
+  String? keys;
   List<String> dropList = [
     'KR', 'JP', 'NA', 'BR', 'LAN', 'LAS', 'EUNE', 'EUW', 'TR', 'RU', 'OCE'];
   String selectedValue = 'KR';
