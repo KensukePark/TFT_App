@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tft_app/screen/community_page.dart';
 import 'package:tft_app/screen/guide_page.dart';
 import 'package:tft_app/screen/home_page.dart';
-import 'package:tft_app/screen/meta_page.dart';
 import 'package:tft_app/screen/ranking_page.dart';
 
 class metaPage extends StatefulWidget {

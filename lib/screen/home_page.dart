@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:tft_app/screen/community_page.dart';
 import 'package:tft_app/screen/ranking_page.dart';
+import 'package:tft_app/screen/searching_page.dart';
 import 'package:tft_app/screen/tool_page.dart';
 
 import 'guide_page.dart';
@@ -30,7 +31,6 @@ class _homePageState extends State<homePage> {
   List<int> temp = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
   late String api = '';
@@ -170,10 +170,9 @@ class _homePageState extends State<homePage> {
                         child: Center(
                           child: InkWell(
                             onTap: () {
-                              List<int> Temp = List.from(widget.point_list);
-                              print(Temp);
-                              //print(widget.point_list.length);
-                            },
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => searchingPage(
+                                id: id
+                              )), (route) => false);                            },
                             child: Icon(
                               Icons.search,
                               size: 24

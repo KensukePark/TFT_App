@@ -4,7 +4,6 @@ import 'package:tft_app/screen/guide_page.dart';
 import 'package:tft_app/screen/home_page.dart';
 import 'package:tft_app/screen/meta_page.dart';
 import 'package:tft_app/screen/ranking_page.dart';
-
 import 'community_page.dart';
 
 class toolPage extends StatefulWidget {
