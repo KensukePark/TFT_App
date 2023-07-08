@@ -4,6 +4,8 @@ import 'package:tft_app/screen/home_page.dart';
 import 'package:tft_app/screen/meta_page.dart';
 import 'package:tft_app/screen/ranking_page.dart';
 
+import 'community_page.dart';
+
 class rankPage extends StatefulWidget {
   const rankPage({Key? key, required this.name_list, required this.point_list}) : super(key: key);
   final name_list;
@@ -213,7 +215,7 @@ class _rankPageState extends State<rankPage> {
                           '랭킹',
                           style: TextStyle(
                             fontFamily: 'contxt',
-                            color: Colors.white38,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -241,7 +243,7 @@ class _rankPageState extends State<rankPage> {
                           '커뮤니티',
                           style: TextStyle(
                             fontFamily: 'contxt',
-                            color: Colors.white,
+                            color: Colors.white38,
                           ),
                         ),
                       ),

@@ -38,6 +38,7 @@ dependencies:
   flutter_spinkit:
   http:
   intl:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

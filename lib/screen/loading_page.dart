@@ -17,7 +17,7 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPage extends State<LoadingPage> {
   String file_loc = 'assets/api_key.txt';
-  String keys = '99';
+  String keys = '';
   List<String> user_name = [];
   List<int> user_idx = [];
   List<int> user_points = [];
@@ -31,7 +31,6 @@ class _LoadingPage extends State<LoadingPage> {
   var url = Uri.parse('https://kr.api.riotgames.com/tft/league/v1/challenger');
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadData();
   }
@@ -73,7 +72,7 @@ class _LoadingPage extends State<LoadingPage> {
     }
     _API().then((value) => {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => homePage(
-        name_list: user_name, idx_list: user_idx, point_list: user_points,
+        name_list: user_name, point_list: user_points,
       )), (route) => false)
     });
     return Scaffold(
