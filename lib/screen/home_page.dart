@@ -171,8 +171,9 @@ class _homePageState extends State<homePage> {
                           child: InkWell(
                             onTap: () {
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => searchingPage(
-                                id: id
-                              )), (route) => false);                            },
+                                id: id, region: selectedValue, name_list: widget.name_list, point_list: widget.point_list,
+                              )), (route) => false);
+                            },
                             child: Icon(
                               Icons.search,
                               size: 24
@@ -501,7 +502,7 @@ class _homePageState extends State<homePage> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Image.asset('assets/Challenger.png', height: 25, width: 30,),
+                                            Image.asset('assets/challenger.png', height: 25, width: 30,),
                                             Text(
                                               'C',
                                               textAlign: TextAlign.center,
