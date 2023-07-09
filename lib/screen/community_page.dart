@@ -35,6 +35,7 @@ class _commuPageState extends State<commuPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: Container(
