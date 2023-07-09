@@ -35,6 +35,7 @@ class _toolPageState extends State<toolPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: Container(
