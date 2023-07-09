@@ -282,7 +282,6 @@ class _guidePageState extends State<guidePage> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
