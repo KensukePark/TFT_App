@@ -36,6 +36,7 @@ class _guidePageState extends State<guidePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: Container(
