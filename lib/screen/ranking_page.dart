@@ -21,6 +21,7 @@ class _rankPageState extends State<rankPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
