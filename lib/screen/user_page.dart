@@ -40,13 +40,16 @@ class _userPageState extends State<userPage> {
   }
   late var percent;
   late var games;
+  late String user_tier;
   @override
   Widget build(BuildContext context) {
     icon_url = 'https://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${widget.data['profileIconId']}.png';
-    String user_tier = widget.result['tier'].toLowerCase();
-    user_tier = user_tier[0].toUpperCase() + user_tier.substring(1);
-    games = widget.result['wins'] + widget.result['losses'];
-    percent = (widget.result['wins'] / games * 100).floor();
+    if (widget.result != 'unknown') {
+      user_tier = widget.result['tier'].toLowerCase();
+      user_tier = user_tier[0].toUpperCase() + user_tier.substring(1);
+      games = widget.result['wins'] + widget.result['losses'];
+      percent = (widget.result['wins'] / games * 100).floor();
+    }
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset : false,
@@ -101,7 +104,8 @@ class _userPageState extends State<userPage> {
                                 value: selectedValue,
                                 items: dropList.map((String item) {
                                   return DropdownMenuItem<String>(
-                                    child: Text('${item}',
+                                    child: Text(
+                                      '${item}',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'contxt',
@@ -298,7 +302,6 @@ class _userPageState extends State<userPage> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
