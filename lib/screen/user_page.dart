@@ -38,11 +38,18 @@ class _userPageState extends State<userPage> {
     }
     return Future.value(true);
   }
+  late var percent;
+  late var games;
   @override
   Widget build(BuildContext context) {
     icon_url = 'https://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${widget.data['profileIconId']}.png';
+    String user_tier = widget.result['tier'].toLowerCase();
+    user_tier = user_tier[0].toUpperCase() + user_tier.substring(1);
+    games = widget.result['wins'] + widget.result['losses'];
+    percent = (widget.result['wins'] / games * 100).floor();
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: Container(
@@ -377,7 +384,7 @@ class _userPageState extends State<userPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Container(
                   padding: EdgeInsets.all(15),
@@ -411,7 +418,7 @@ class _userPageState extends State<userPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 25,),
+                              SizedBox(height: 10,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -475,23 +482,98 @@ class _userPageState extends State<userPage> {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 5,),
                             ],
                           ),
                         ) :
                         Container(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Row(
                                 children: [
                                   Image.asset(
-                                    'assets/'+ widget.result['tier'] +'.png',
+                                    'assets/'+ widget.result['tier'].toLowerCase() +'.png',
                                     width: MediaQuery.of(context).size.width*0.25,
                                     height: MediaQuery.of(context).size.width*0.25,
                                   ),
-                                  Text('hello'),
+                                  Text(
+                                    user_tier + ' ' + widget.result['rank'],
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'contxt',
+                                      color: Colors.white54,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
+                              SizedBox(height: 10,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '게임 수',
+                                              style: TextStyle(
+                                                fontFamily: 'contxt',
+                                              ),
+                                            ),
+                                            Text(
+                                              '${games}',
+                                              style: TextStyle(
+                                                fontFamily: 'contxt',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 2),
+                                        LinearProgressIndicator(
+                                          value: 1,
+                                          color: Colors.white10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'TOP 4 비율',
+                                              style: TextStyle(
+                                                fontFamily: 'contxt',
+                                              ),
+                                            ),
+                                            Text(
+                                              '${percent} %',
+                                              style: TextStyle(
+                                                fontFamily: 'contxt',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 2),
+                                        LinearProgressIndicator(
+                                          value: percent/100,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5,),
                             ],
                           ),
                         ),
