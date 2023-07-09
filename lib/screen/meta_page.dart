@@ -34,6 +34,7 @@ class _metaPageState extends State<metaPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
           child: Container(
