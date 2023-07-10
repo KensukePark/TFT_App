@@ -23,6 +23,8 @@ class _searchingPageState extends State<searchingPage> {
   var icon;
   var user_data;
   var result;
+  var match_list;
+  List<int> rank_list = [];
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
     setState(() {
@@ -39,6 +41,8 @@ class _searchingPageState extends State<searchingPage> {
     var encoded_id = Uri.encodeComponent(widget.id);
     var url = Uri.parse('https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/' + encoded_id);
     var url2;
+    var url3;
+    var url4;
     Map<String, String> header = {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67",
       "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
@@ -61,13 +65,51 @@ class _searchingPageState extends State<searchingPage> {
         result = jsonDecode(response.body)[0];
       }
     }
+    Future<void> _API_3() async {
+      http.Response response = await http.get(url3, headers: header);
+      if (jsonDecode(response.body).length == 0) {
+        match_list = [];
+      }
+      else {
+        match_list = jsonDecode(response.body);
+      }
+    }
+    Future<void> _API_4() async {
+      if (match_list.length == 0) {
+        rank_list = [];
+      }
+      else {
+        for (int i=0; i<match_list.length; i++) {
+          url4 = Uri.parse('https://asia.api.riotgames.com/tft/match/v1/matches/' + match_list[i]);
+          http.Response response = await http.get(url4, headers: header);
+          for (int j=0; j<8; j++) {
+            if (jsonDecode(response.body)['info']['participants'][j]['puuid'] == user_data['puuid']) {
+              var rank_temp = jsonDecode(response.body)['info']['participants'][j]['placement'];
+              rank_list.add(rank_temp);
+              break;
+            }
+          }
+        }
+      }
+    }
     _API().then((value) => {
       url2 = Uri.parse('https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/' + enc_id),
       _API_2().then((value) => {
-        print(result),
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
-        result: result, data: user_data, region: widget.region, name_list: widget.name_list, point_list: widget.point_list,
-        )), (route) => false),
+        url3 = Uri.parse('https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/' + user_data['puuid'] +'/ids?start=0&count=10'),
+        _API_3().then((value) => {
+          print(match_list),
+          _API_4().then((value) => {
+            print(rank_list),
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
+              result: result,
+              data: user_data,
+              region: widget.region,
+              name_list: widget.name_list,
+              point_list: widget.point_list,
+              rank_list: rank_list,
+            )), (route) => false),
+          }),
+        }),
       }),
     });
     return Scaffold(
