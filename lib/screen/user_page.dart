@@ -10,12 +10,13 @@ import 'home_page.dart';
 import 'meta_page.dart';
 
 class userPage extends StatefulWidget {
-  const userPage({Key? key, required this.data, required this.result, required this.region, required this.name_list, required this.point_list}) : super(key: key);
+  const userPage({Key? key, required this.data, required this.result, required this.region, required this.name_list, required this.point_list, required this.rank_list}) : super(key: key);
   final data;
   final result;
   final region;
   final name_list;
   final point_list;
+  final rank_list;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -583,21 +584,70 @@ class _userPageState extends State<userPage> {
                       ],
                     ),
                   ),
-                )
+                ),
+                Container(
+                  padding: EdgeInsets.only(left:15, right: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                        Text('최근 게임 순위'),
+                        SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width * 0.065,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: widget.rank_list.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.07,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: widget.rank_list[index] == 1 ?
+                                      Color(0xffAF9500) :
+                                      (widget.rank_list[index] == 2 ? Color(0xffB4B4B4) :
+                                      (widget.rank_list[index] == 3 ? Color(0xffAD8A56) :
+                                      (widget.rank_list[index] == 4 ? Colors.blueGrey :
+                                      Colors.white24))),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text(
+                                      '#${widget.rank_list[index]}',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 5),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+
+                ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class UnrankForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-
     );
   }
 }
