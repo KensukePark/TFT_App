@@ -501,7 +501,9 @@ class _userPageState extends State<userPage> {
                                     width: MediaQuery.of(context).size.width*0.25,
                                     height: MediaQuery.of(context).size.width*0.25,
                                   ),
+                                  SizedBox(width: 5),
                                   Text(
+                                    user_tier == 'Challenger' ? user_tier :
                                     user_tier + ' ' + widget.result['rank'],
                                     style: TextStyle(
                                       fontSize: 16,
