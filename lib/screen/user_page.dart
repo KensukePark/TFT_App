@@ -597,8 +597,14 @@ class _userPageState extends State<userPage> {
                     child: Column(
                       children: [
                         SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                        Text('최근 게임 순위'),
-                        SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                        Text(
+                          '최근 게임 순위',
+                          style: TextStyle(
+                              fontFamily: 'contxt',
+                              fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.width * 0.035),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -631,7 +637,7 @@ class _userPageState extends State<userPage> {
                                     ),
                                   );
                                 },
-                                separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 5),
+                                separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 6),
                               ),
                             ),
                           ],
