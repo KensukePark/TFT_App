@@ -10,13 +10,23 @@ import 'home_page.dart';
 import 'meta_page.dart';
 
 class userPage extends StatefulWidget {
-  const userPage({Key? key, required this.data, required this.result, required this.region, required this.name_list, required this.point_list, required this.rank_list}) : super(key: key);
+  const userPage({Key? key,
+    required this.data,
+    required this.result,
+    required this.region,
+    required this.name_list,
+    required this.point_list,
+    required this.rank_list,
+    required this.doubleup_rank,
+    required this.turbo_rank, }) : super(key: key);
   final data;
   final result;
   final region;
   final name_list;
   final point_list;
   final rank_list;
+  final doubleup_rank;
+  final turbo_rank;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -349,7 +359,7 @@ class _userPageState extends State<userPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 5),
+                              SizedBox(width: 10),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,6 +594,34 @@ class _userPageState extends State<userPage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  padding: EdgeInsets.only(left:15, right: 15),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: (MediaQuery.of(context).size.width-45) / 2,
+                          decoration: BoxDecoration(
+                            color: Colors.black45,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text('helllo'),
+                        ),
+                        Container(
+                          width: (MediaQuery.of(context).size.width-45) / 2,
+                          decoration: BoxDecoration(
+                            color: Colors.black45,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text('helllo'),
+                        ),
+                      ],
+
                     ),
                   ),
                 ),
