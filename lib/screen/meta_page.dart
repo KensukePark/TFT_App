@@ -68,7 +68,7 @@ class _metaPageState extends State<metaPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width*0.18,
+                        width: MediaQuery.of(context).size.width*0.20,
                         height: MediaQuery.of(context).size.width*0.12,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -77,37 +77,41 @@ class _metaPageState extends State<metaPage> {
                           ),
                           color: Colors.black45,
                         ),
-                        child: Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width*0.12,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: selectedValue,
-                                items: dropList.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text('${item}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'contxt',
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(width: 5),
+                            Container(
+                              width: MediaQuery.of(context).size.width*0.18,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  value: selectedValue,
+                                  items: dropList.map((String item) {
+                                    return DropdownMenuItem<String>(
+                                      child: Text('${item}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'contxt',
+                                        ),
                                       ),
-                                    ),
-                                    value: item,
-                                  );
-                                }).toList(),
-                                onChanged: (dynamic value) {
-                                  setState(() {
-                                    selectedValue = value;
-                                  });
-                                },
+                                      value: item,
+                                    );
+                                  }).toList(),
+                                  onChanged: (dynamic value) {
+                                    setState(() {
+                                      selectedValue = value;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10,),
-                        width: MediaQuery.of(context).size.width*0.60,
+                        width: MediaQuery.of(context).size.width*0.57,
                         height: MediaQuery.of(context).size.width*0.12,
                         decoration: BoxDecoration(
                           border: Border.all(
