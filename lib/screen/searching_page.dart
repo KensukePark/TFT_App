@@ -27,6 +27,7 @@ class _searchingPageState extends State<searchingPage> {
   var doubleup_rank = [];
   var turbo_rank = [];
   List<int> rank_list = [];
+  var trait = [];
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
     setState(() {
@@ -88,6 +89,44 @@ class _searchingPageState extends State<searchingPage> {
           for (int j=0; j<8; j++) {
             if (jsonDecode(response.body)['info']['participants'][j]['puuid'] == user_data['puuid']) {
               var rank_temp = jsonDecode(response.body)['info']['participants'][j]['placement'];
+              var temp = {};
+              for (int k=0; k<jsonDecode(response.body)['info']['participants'][j]['traits'].length; k++) {
+                if (
+                  (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Void' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Piltover' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Noxus' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Shurima' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Ionia' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_BandleCity' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Demacia') &&
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'] < 3
+                ) {
+                  continue;
+                }
+                else if (
+                  (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_ShadowIsles' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Zaun' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Targon' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Freljord' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Preserver' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Challenger' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Deadeye' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Rogue' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Marksman' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Multicaster' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Bastion' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Armorclad' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Strategist' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Sorcerer' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Slayer') &&
+                  jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'] < 2
+                ) {
+                  continue;
+                }
+                temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'];
+              }
+              trait.add(temp);
+              print(temp);
               rank_list.add(rank_temp);
               break;
             }
@@ -139,6 +178,7 @@ class _searchingPageState extends State<searchingPage> {
                 rank_list: rank_list,
                 doubleup_rank: doubleup_rank,
                 turbo_rank: turbo_rank,
+                trait: trait,
               )), (route) => false),
             }),
           }),
