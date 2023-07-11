@@ -24,6 +24,8 @@ class _searchingPageState extends State<searchingPage> {
   var user_data;
   var result;
   var match_list;
+  var doubleup_rank = [];
+  var turbo_rank = [];
   List<int> rank_list = [];
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
@@ -43,6 +45,7 @@ class _searchingPageState extends State<searchingPage> {
     var url2;
     var url3;
     var url4;
+    var url5;
     Map<String, String> header = {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67",
       "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
@@ -92,6 +95,29 @@ class _searchingPageState extends State<searchingPage> {
         }
       }
     }
+    Future<void> _API_5() async { //더블업, 초고속모드 랭크정보 수집
+      http.Response response = await http.get(url5, headers: header);
+      if (jsonDecode(response.body).length == 0) {
+        doubleup_rank.add('unrank');
+        turbo_rank.add('unrank');
+      }
+      else {
+        for (int i=0; i < jsonDecode(response.body).length; i++) {
+          if ( jsonDecode(response.body)[i]['queueType'] == 'RANKED_TFT_TURBO' ) {
+            turbo_rank.add(jsonDecode(response.body)[i]['tier']);
+            turbo_rank.add(jsonDecode(response.body)[i]['rank']);
+            turbo_rank.add(jsonDecode(response.body)[i]['leaguePoints']);
+          }
+          else if ( jsonDecode(response.body)[i]['queueType'] == 'RANKED_TFT_DOUBLE_UP' ) {
+            doubleup_rank.add(jsonDecode(response.body)[i]['tier']);
+            doubleup_rank.add(jsonDecode(response.body)[i]['rank']);
+            doubleup_rank.add(jsonDecode(response.body)[i]['leaguePoints']);
+          }
+        }
+      }
+      if (doubleup_rank.length == 0) doubleup_rank.add('unrank');
+      if (turbo_rank.length == 0) turbo_rank.add('unrank');
+    }
     _API().then((value) => {
       url2 = Uri.parse('https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/' + enc_id),
       _API_2().then((value) => {
@@ -100,14 +126,21 @@ class _searchingPageState extends State<searchingPage> {
           print(match_list),
           _API_4().then((value) => {
             print(rank_list),
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
-              result: result,
-              data: user_data,
-              region: widget.region,
-              name_list: widget.name_list,
-              point_list: widget.point_list,
-              rank_list: rank_list,
-            )), (route) => false),
+            url5 = Uri.parse('https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/' + enc_id),
+            _API_5().then((value) => {
+              print(turbo_rank),
+              print(doubleup_rank),
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
+                result: result,
+                data: user_data,
+                region: widget.region,
+                name_list: widget.name_list,
+                point_list: widget.point_list,
+                rank_list: rank_list,
+                doubleup_rank: doubleup_rank,
+                turbo_rank: turbo_rank,
+              )), (route) => false),
+            }),
           }),
         }),
       }),
