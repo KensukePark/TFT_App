@@ -18,7 +18,8 @@ class userPage extends StatefulWidget {
     required this.point_list,
     required this.rank_list,
     required this.doubleup_rank,
-    required this.turbo_rank, }) : super(key: key);
+    required this.turbo_rank,
+    required this.trait }) : super(key: key);
   final data;
   final result;
   final region;
@@ -27,6 +28,7 @@ class userPage extends StatefulWidget {
   final rank_list;
   final doubleup_rank;
   final turbo_rank;
+  final trait;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -597,7 +599,6 @@ class _userPageState extends State<userPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
                 Container(
                   padding: EdgeInsets.only(left:15, right: 15),
                   child: Container(
@@ -610,7 +611,75 @@ class _userPageState extends State<userPage> {
                             color: Colors.black45,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text('helllo'),
+                          child: widget.turbo_rank[0] == 'unrank' ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.25,
+                                height: MediaQuery.of(context).size.width*0.25,
+                                child: Image.asset(
+                                  'assets/unrank.png',
+                                  width: MediaQuery.of(context).size.width*0.25,
+                                  height: MediaQuery.of(context).size.width*0.25,
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.width*0.15,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '초고속 모드' ,
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Unranked',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                )
+                              ),
+                            ],
+                          ) : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.25,
+                                height: MediaQuery.of(context).size.width*0.25,
+                                child: Image.asset(
+                                  'assets/'+ widget.turbo_rank[0].toLowerCase() +'.png',
+                                  width: MediaQuery.of(context).size.width*0.25,
+                                  height: MediaQuery.of(context).size.width*0.25,
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.width*0.15,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '초고속 모드',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      widget.turbo_rank[0].toLowerCase() + widget.turbo_rank[1],
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                )
+                              ),
+                            ],
+                          ),
                         ),
                         Container(
                           width: (MediaQuery.of(context).size.width-45) / 2,
@@ -618,13 +687,81 @@ class _userPageState extends State<userPage> {
                             color: Colors.black45,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text('helllo'),
+                          child: widget.doubleup_rank[0] == 'unrank' ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.25,
+                                height: MediaQuery.of(context).size.width*0.25,
+                                child: Image.asset(
+                                  'assets/unrank.png',
+                                  width: MediaQuery.of(context).size.width*0.25,
+                                  height: MediaQuery.of(context).size.width*0.25,
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.width*0.15,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '초고속 모드',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Unranked',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                )
+                              ),
+                            ],
+                          ) : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.25,
+                                height: MediaQuery.of(context).size.width*0.25,
+                                child: Image.asset(
+                                  'assets/'+ widget.doubleup_rank[0].toLowerCase() +'.png',
+                                  width: MediaQuery.of(context).size.width*0.25,
+                                  height: MediaQuery.of(context).size.width*0.25,
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.width*0.15,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '초고속 모드',
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      widget.doubleup_rank[0].toLowerCase() + ' ' + widget.doubleup_rank[1],
+                                      style: TextStyle(
+                                        fontFamily: 'contxt',
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                )
+                              ),
+                            ],
+                          ),
                         ),
                       ],
-
                     ),
                   ),
                 ),
+                SizedBox(height: 15),
                 Container(
                   padding: EdgeInsets.only(left:15, right: 15),
                   child: Container(
