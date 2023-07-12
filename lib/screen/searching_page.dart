@@ -91,6 +91,7 @@ class _searchingPageState extends State<searchingPage> {
               var rank_temp = jsonDecode(response.body)['info']['participants'][j]['placement'];
               var temp = {};
               for (int k=0; k<jsonDecode(response.body)['info']['participants'][j]['traits'].length; k++) {
+                /*
                 if (
                   (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Void' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Piltover' ||
@@ -109,6 +110,7 @@ class _searchingPageState extends State<searchingPage> {
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Targon' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Freljord' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Preserver' ||
+                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Bruiser' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Challenger' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Deadeye' ||
                     jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Rogue' ||
@@ -123,7 +125,10 @@ class _searchingPageState extends State<searchingPage> {
                 ) {
                   continue;
                 }
-                temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'];
+
+                */
+                if (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'] < 1) continue;
+                temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'];
               }
               trait.add(temp);
               print(temp);
