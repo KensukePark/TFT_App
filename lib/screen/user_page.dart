@@ -68,766 +68,784 @@ class _userPageState extends State<userPage> {
         resizeToAvoidBottomInset : false,
         body: WillPopScope(
           onWillPop: onWillPop,
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/tft_background.jpg'), // 배경 이미지
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3), BlendMode.dstATop),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('assets/tft_background.jpg'), // 배경 이미지
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                  ),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(height: 10,),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  child: Center(
-                    child: Text(
-                      'TFT.GG',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontFamily: 'title',
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 10,),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      child: Center(
+                        child: Text(
+                          'TFT.GG',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'title',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width*0.18,
-                        height: MediaQuery.of(context).size.width*0.12,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.white38,
+                    SizedBox(height: 10,),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width*0.18,
+                            height: MediaQuery.of(context).size.width*0.12,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.white38,
+                              ),
+                              color: Colors.black45,
+                            ),
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width*0.12,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    isExpanded: true,
+                                    value: selectedValue,
+                                    items: dropList.map((String item) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          '${item}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        value: item,
+                                      );
+                                    }).toList(),
+                                    onChanged: (dynamic value) {
+                                      setState(() {
+                                        selectedValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          color: Colors.black45,
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width*0.12,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: selectedValue,
-                                items: dropList.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text(
-                                      '${item}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    value: item,
-                                  );
-                                }).toList(),
-                                onChanged: (dynamic value) {
-                                  setState(() {
-                                    selectedValue = value;
-                                  });
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10,),
+                            width: MediaQuery.of(context).size.width*0.60,
+                            height: MediaQuery.of(context).size.width*0.12,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.white38,
+                              ),
+                              color: Colors.black45,
+                            ),
+                            child: TextField(
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '소환사 검색',
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: 'contxt',
+                              ),
+                              onChanged: (value) {
+                                id = value;
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width*0.23-40,
+                            height: MediaQuery.of(context).size.width*0.12,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.white38,
+                              ),
+                              color: Colors.black45,
+                            ),
+                            child: Center(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => searchingPage(
+                                      id: id, region: selectedValue, name_list: widget.name_list, point_list: widget.point_list,
+                                  )), (route) => false);
                                 },
+                                child: Icon(
+                                    Icons.search,
+                                    size: 24
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10,),
-                        width: MediaQuery.of(context).size.width*0.60,
-                        height: MediaQuery.of(context).size.width*0.12,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.white38,
-                          ),
-                          color: Colors.black45,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height*0.05,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.white38,
                         ),
-                        child: TextField(
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '소환사 검색',
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                          ),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'contxt',
-                          ),
-                          onChanged: (value) {
-                            id = value;
-                          },
-                        ),
+                        color: Colors.black45,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width*0.23-40,
-                        height: MediaQuery.of(context).size.width*0.12,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.white38,
-                          ),
-                          color: Colors.black45,
-                        ),
-                        child: Center(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => searchingPage(
-                                  id: id, region: selectedValue, name_list: widget.name_list, point_list: widget.point_list,
-                              )), (route) => false);
-                            },
-                            child: Icon(
-                                Icons.search,
-                                size: 24
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height*0.05,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.white38,
-                    ),
-                    color: Colors.black45,
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => homePage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '홈',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => metaPage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '메타 트렌드',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => guidePage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '게임 가이드',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => rankPage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '랭킹',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => toolPage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '배치툴',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => commuPage(
-                              name_list: widget.name_list, point_list: widget.point_list,
-                            )), (route) => false);
-                          },
-                          child: Text(
-                            '커뮤니티',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            '테스트',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            '테스트',
-                            style: TextStyle(
-                              fontFamily: 'contxt',
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left:15, right: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black45,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              Stack(
-                                children: [
-                                  ClipOval(
-                                    child: Image.network(
-                                      icon_url,
-                                      width: MediaQuery.of(context).size.width*0.15,
-                                      height: MediaQuery.of(context).size.width*0.15,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width*0.15,
-                                      child: Text(
-                                        '${widget.data['summonerLevel']}',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'contxt',
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.data['name'],
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'contxt',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black45,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      widget.region,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'contxt',
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  padding: EdgeInsets.all(15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black45,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        widget.result == 'unknown' ?
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/unrank.png',
-                                    width: MediaQuery.of(context).size.width*0.25,
-                                    height: MediaQuery.of(context).size.width*0.25,
-                                  ),
-                                  Text(
-                                    'Unranked',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'contxt',
-                                      color: Colors.white54,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '게임 수',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                            Text(
-                                              '0',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 2),
-                                        LinearProgressIndicator(
-                                          value: 0,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'TOP 4 비율',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                            Text(
-                                              '0',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 2),
-                                        LinearProgressIndicator(
-                                          value: 0,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5,),
-                            ],
-                          ),
-                        ) :
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/'+ widget.result['tier'].toLowerCase() +'.png',
-                                    width: MediaQuery.of(context).size.width*0.25,
-                                    height: MediaQuery.of(context).size.width*0.25,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    user_tier == 'Challenger' ? user_tier :
-                                    user_tier + ' ' + widget.result['rank'],
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'contxt',
-                                      color: Colors.white54,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '게임 수',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                            Text(
-                                              '${games}',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 2),
-                                        LinearProgressIndicator(
-                                          value: 1,
-                                          color: Colors.white10,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    width: (MediaQuery.of(context).size.width-50) / 2 - 5,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'TOP 4 비율',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                            Text(
-                                              '${percent} %',
-                                              style: TextStyle(
-                                                fontFamily: 'contxt',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 2),
-                                        LinearProgressIndicator(
-                                          value: percent/100,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5,),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left:15, right: 15),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: (MediaQuery.of(context).size.width-45) / 2,
-                          decoration: BoxDecoration(
-                            color: Colors.black45,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: widget.turbo_rank[0] == 'unrank' ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.width*0.25,
-                                child: Image.asset(
-                                  'assets/unrank.png',
-                                  width: MediaQuery.of(context).size.width*0.25,
-                                  height: MediaQuery.of(context).size.width*0.25,
-                                ),
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width*0.15,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '초고속 모드' ,
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Unranked',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                )
-                              ),
-                            ],
-                          ) : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.width*0.25,
-                                child: Image.asset(
-                                  'assets/'+ widget.turbo_rank[0].toLowerCase() +'.png',
-                                  width: MediaQuery.of(context).size.width*0.25,
-                                  height: MediaQuery.of(context).size.width*0.25,
-                                ),
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width*0.15,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '초고속 모드',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      widget.turbo_rank[0].toLowerCase() + widget.turbo_rank[1],
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                )
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: (MediaQuery.of(context).size.width-45) / 2,
-                          decoration: BoxDecoration(
-                            color: Colors.black45,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: widget.doubleup_rank[0] == 'unrank' ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.width*0.25,
-                                child: Image.asset(
-                                  'assets/unrank.png',
-                                  width: MediaQuery.of(context).size.width*0.25,
-                                  height: MediaQuery.of(context).size.width*0.25,
-                                ),
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width*0.15,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '초고속 모드',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Unranked',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                )
-                              ),
-                            ],
-                          ) : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.25,
-                                height: MediaQuery.of(context).size.width*0.25,
-                                child: Image.asset(
-                                  'assets/'+ widget.doubleup_rank[0].toLowerCase() +'.png',
-                                  width: MediaQuery.of(context).size.width*0.25,
-                                  height: MediaQuery.of(context).size.width*0.25,
-                                ),
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.width*0.15,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '초고속 모드',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      widget.doubleup_rank[0].toLowerCase() + ' ' + widget.doubleup_rank[1],
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                )
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  padding: EdgeInsets.only(left:15, right: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black45,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '최근 게임 순위',
-                          style: TextStyle(
-                              fontFamily: 'contxt',
-                              fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.width * 0.035),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: [
-                            Container(
-                              height: MediaQuery.of(context).size.width * 0.065,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: widget.rank_list.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width * 0.07,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: widget.rank_list[index] == 1 ?
-                                      Color(0xffAF9500) :
-                                      (widget.rank_list[index] == 2 ? Color(0xffB4B4B4) :
-                                      (widget.rank_list[index] == 3 ? Color(0xffAD8A56) :
-                                      (widget.rank_list[index] == 4 ? Colors.blueGrey :
-                                      Colors.white24))),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text(
-                                      '#${widget.rank_list[index]}',
-                                      style: TextStyle(
-                                        fontFamily: 'contxt',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 6),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => homePage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '홈',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => metaPage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '메타 트렌드',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => guidePage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '게임 가이드',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => rankPage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '랭킹',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => toolPage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '배치툴',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => commuPage(
+                                  name_list: widget.name_list, point_list: widget.point_list,
+                                )), (route) => false);
+                              },
+                              child: Text(
+                                '커뮤니티',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                '테스트',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                '테스트',
+                                style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  color: Colors.white38,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 15),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left:15, right: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      ClipOval(
+                                        child: Image.network(
+                                          icon_url,
+                                          width: MediaQuery.of(context).size.width*0.15,
+                                          height: MediaQuery.of(context).size.width*0.15,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width*0.15,
+                                          child: Text(
+                                            '${widget.data['summonerLevel']}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'contxt',
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.data['name'],
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'contxt',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black45,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Text(
+                                          widget.region,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'contxt',
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            widget.result == 'unknown' ?
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/unrank.png',
+                                        width: MediaQuery.of(context).size.width*0.25,
+                                        height: MediaQuery.of(context).size.width*0.25,
+                                      ),
+                                      Text(
+                                        'Unranked',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'contxt',
+                                          color: Colors.white54,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '게임 수',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 2),
+                                            LinearProgressIndicator(
+                                              value: 0,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'TOP 4 비율',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 2),
+                                            LinearProgressIndicator(
+                                              value: 0,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
+                                ],
+                              ),
+                            ) :
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/'+ widget.result['tier'].toLowerCase() +'.png',
+                                        width: MediaQuery.of(context).size.width*0.25,
+                                        height: MediaQuery.of(context).size.width*0.25,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        user_tier == 'Challenger' ? user_tier :
+                                        user_tier + ' ' + widget.result['rank'],
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'contxt',
+                                          color: Colors.white54,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '게임 수',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${games}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 2),
+                                            LinearProgressIndicator(
+                                              value: 1,
+                                              color: Colors.white10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: (MediaQuery.of(context).size.width-50) / 2 - 5,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'TOP 4 비율',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${percent} %',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 2),
+                                            LinearProgressIndicator(
+                                              value: percent/100,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5,),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left:15, right: 15),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: (MediaQuery.of(context).size.width-45) / 2,
+                              decoration: BoxDecoration(
+                                color: Colors.black45,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: widget.turbo_rank[0] == 'unrank' ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width*0.25,
+                                    height: MediaQuery.of(context).size.width*0.25,
+                                    child: Image.asset(
+                                      'assets/unrank.png',
+                                      width: MediaQuery.of(context).size.width*0.25,
+                                      height: MediaQuery.of(context).size.width*0.25,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: MediaQuery.of(context).size.width*0.15,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '초고속 모드' ,
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          'Unranked',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    )
+                                  ),
+                                ],
+                              ) : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width*0.25,
+                                    height: MediaQuery.of(context).size.width*0.25,
+                                    child: Image.asset(
+                                      'assets/'+ widget.turbo_rank[0].toLowerCase() +'.png',
+                                      width: MediaQuery.of(context).size.width*0.25,
+                                      height: MediaQuery.of(context).size.width*0.25,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: MediaQuery.of(context).size.width*0.15,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '초고속 모드',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          widget.turbo_rank[0].toLowerCase() + widget.turbo_rank[1],
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    )
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: (MediaQuery.of(context).size.width-45) / 2,
+                              decoration: BoxDecoration(
+                                color: Colors.black45,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: widget.doubleup_rank[0] == 'unrank' ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width*0.25,
+                                    height: MediaQuery.of(context).size.width*0.25,
+                                    child: Image.asset(
+                                      'assets/unrank.png',
+                                      width: MediaQuery.of(context).size.width*0.25,
+                                      height: MediaQuery.of(context).size.width*0.25,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: MediaQuery.of(context).size.width*0.15,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '초고속 모드',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          'Unranked',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    )
+                                  ),
+                                ],
+                              ) : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width*0.25,
+                                    height: MediaQuery.of(context).size.width*0.25,
+                                    child: Image.asset(
+                                      'assets/'+ widget.doubleup_rank[0].toLowerCase() +'.png',
+                                      width: MediaQuery.of(context).size.width*0.25,
+                                      height: MediaQuery.of(context).size.width*0.25,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: MediaQuery.of(context).size.width*0.15,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '초고속 모드',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          widget.doubleup_rank[0].toLowerCase() + ' ' + widget.doubleup_rank[1],
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    )
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      padding: EdgeInsets.only(left:15, right: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '최근 게임 순위',
+                              style: TextStyle(
+                                  fontFamily: 'contxt',
+                                  fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.width * 0.035),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.width * 0.065,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: widget.rank_list.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        width: MediaQuery.of(context).size.width * 0.07,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: widget.rank_list[index] == 1 ?
+                                          Color(0xffAF9500) :
+                                          (widget.rank_list[index] == 2 ? Color(0xffB4B4B4) :
+                                          (widget.rank_list[index] == 3 ? Color(0xffAD8A56) :
+                                          (widget.rank_list[index] == 4 ? Colors.blueGrey :
+                                          Colors.white24))),
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        child: Text(
+                                          '#${widget.rank_list[index]}',
+                                          style: TextStyle(
+                                            fontFamily: 'contxt',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 6),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      padding: EdgeInsets.only(left:15, right: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(width: MediaQuery.of(context).size.width-30 ,height: 150,),
+                            Text('hello'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 15),
-                Container(
-
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
