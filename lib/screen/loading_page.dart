@@ -46,6 +46,7 @@ class _LoadingPage extends State<LoadingPage> {
     Future<void> _API() async {
       http.Response response = await http.get(url, headers: header);
       var user_list = jsonDecode(response.body)['entries'];
+      print(response.body);
       if (user_points.length < 220) {
         for (int i=0; i<user_list.length; i++) {
           bool _isCheck = false;
