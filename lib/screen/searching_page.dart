@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:tft_app/screen/user_page.dart';
@@ -28,6 +29,9 @@ class _searchingPageState extends State<searchingPage> {
   var turbo_rank = [];
   List<int> rank_list = [];
   var trait = [];
+  var queue = [];
+  var eli_time = [];
+  var when = [];
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
     setState(() {
@@ -38,6 +42,24 @@ class _searchingPageState extends State<searchingPage> {
   void initState() {
     super.initState();
     _loadData();
+  }
+  String readTimestamp(int timestamp) {
+
+    var now = DateTime.now();
+    var format = DateFormat('HH:mm a');
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    var diff = now.difference(date);
+    var time = '';
+    if (diff.inDays == 0) {
+      if (diff.inHours == 0) {
+        time = diff.inMinutes.toString() + '분 전';
+      }
+      else time = diff.inHours.toString() + '시간 전';
+    }
+    else {
+      time = diff.inDays.toString() + '일 전';
+    }
+    return time;
   }
   @override
   Widget build(BuildContext context) {
@@ -86,56 +108,28 @@ class _searchingPageState extends State<searchingPage> {
         for (int i=0; i<match_list.length; i++) {
           url4 = Uri.parse('https://asia.api.riotgames.com/tft/match/v1/matches/' + match_list[i]);
           http.Response response = await http.get(url4, headers: header);
+          when.add(readTimestamp(jsonDecode(response.body)['info']['game_datetime']));
           for (int j=0; j<8; j++) {
             if (jsonDecode(response.body)['info']['participants'][j]['puuid'] == user_data['puuid']) {
               var rank_temp = jsonDecode(response.body)['info']['participants'][j]['placement'];
               var temp = {};
               for (int k=0; k<jsonDecode(response.body)['info']['participants'][j]['traits'].length; k++) {
-                /*
-                if (
-                  (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Void' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Piltover' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Noxus' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Shurima' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Ionia' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_BandleCity' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Demacia') &&
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'] < 3
-                ) {
-                  continue;
-                }
-                else if (
-                  (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_ShadowIsles' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Zaun' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Targon' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Freljord' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Preserver' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Bruiser' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Challenger' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Deadeye' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Rogue' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Marksman' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Multicaster' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Bastion' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Armorclad' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Strategist' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Sorcerer' ||
-                    jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name'] == 'Set9_Slayer') &&
-                  jsonDecode(response.body)['info']['participants'][j]['traits'][k]['num_units'] < 2
-                ) {
-                  continue;
-                }
-
-                */
                 if (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'] < 1) continue;
                 temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'];
               }
-              trait.add(temp);
-              print(temp);
+              Map sorted_temp = Map.fromEntries(temp.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
+              trait.add(sorted_temp);
+              print(sorted_temp);
               rank_list.add(rank_temp);
+              var time_temp = jsonDecode(response.body)['info']['participants'][j]['time_eliminated'].floor();
+              eli_time.add('${time_temp~/60}:${time_temp%60}');
               break;
             }
           }
+          if (jsonDecode(response.body)['info']['queue_id'] == 1090) queue.add('노말');
+          else if (jsonDecode(response.body)['info']['queue_id'] == 1100) queue.add('랭크');
+          else if (jsonDecode(response.body)['info']['queue_id'] == 1130) queue.add('초고속');
+          else if (jsonDecode(response.body)['info']['queue_id'] == 1160) queue.add('더블업');
         }
       }
     }
@@ -174,6 +168,9 @@ class _searchingPageState extends State<searchingPage> {
             _API_5().then((value) => {
               print(turbo_rank),
               print(doubleup_rank),
+              print(queue),
+              print(eli_time),
+              print(when),
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
                 result: result,
                 data: user_data,
@@ -184,6 +181,9 @@ class _searchingPageState extends State<searchingPage> {
                 doubleup_rank: doubleup_rank,
                 turbo_rank: turbo_rank,
                 trait: trait,
+                queue: queue,
+                eli_time: eli_time,
+                when: when,
               )), (route) => false),
             }),
           }),
