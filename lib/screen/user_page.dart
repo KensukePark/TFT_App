@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tft_app/screen/ranking_page.dart';
 import 'package:tft_app/screen/searching_page.dart';
@@ -19,7 +20,10 @@ class userPage extends StatefulWidget {
     required this.rank_list,
     required this.doubleup_rank,
     required this.turbo_rank,
-    required this.trait }) : super(key: key);
+    required this.trait,
+    required this.queue,
+    required this.eli_time,
+    required this.when}) : super(key: key);
   final data;
   final result;
   final region;
@@ -29,6 +33,9 @@ class userPage extends StatefulWidget {
   final doubleup_rank;
   final turbo_rank;
   final trait;
+  final queue;
+  final eli_time;
+  final when;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -834,14 +841,132 @@ class _userPageState extends State<userPage> {
                           color: Colors.black45,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Column(
-                          children: [
-                            SizedBox(width: MediaQuery.of(context).size.width-30 ,height: 150,),
-                            Text('hello'),
-                          ],
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 5),
+                              ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: widget.rank_list[index] == 1 ?
+                                        Color(0xffAF9500) :
+                                        (widget.rank_list[index] == 2 ? Color(0xffB4B4B4) :
+                                        (widget.rank_list[index] == 3 ? Color(0xffAD8A56) :
+                                        (widget.rank_list[index] == 4 ? Colors.blueGrey :
+                                        Colors.white24))),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 10),
+                                          Container(
+                                            width: MediaQuery.of(context).size.width * 0.15,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  '#${widget.rank_list[index]}',
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600
+                                                  ),
+                                                ),
+                                                SizedBox(height: 2),
+                                                Text(
+                                                  widget.queue[index],
+                                                  style: TextStyle(
+                                                    fontFamily: 'contxt',
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400
+                                                  ),
+                                                ),
+                                                Text(
+                                                  widget.eli_time[index],
+                                                  style: TextStyle(
+                                                      fontFamily: 'contxt',
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400
+                                                  ),
+                                                ),
+                                                Text(
+                                                  widget.when[index],
+                                                  style: TextStyle(
+                                                      fontFamily: 'contxt',
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Stack(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/trait_4.png',
+                                                          width: 32,
+                                                          height: 32,
+                                                        ),
+                                                        Positioned(
+                                                          top: 4,
+                                                          left: 4,
+                                                          child: SvgPicture.asset(
+                                                            'assets/darkin.svg',
+                                                            width: 24,
+                                                            height: 24,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Stack(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/trait_4.png',
+                                                          width: 32,
+                                                          height: 32,
+                                                        ),
+                                                        Positioned(
+                                                          top: 4,
+                                                          left: 4,
+                                                          child: SvgPicture.asset(
+                                                            'assets/darkin.svg',
+                                                            width: 24,
+                                                            height: 24,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+                              ),
+                              SizedBox(height: 5),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    SizedBox(height: 15),
                   ],
                 ),
               ),
