@@ -903,6 +903,7 @@ class _userPageState extends State<userPage> {
                                                       fontWeight: FontWeight.w400
                                                   ),
                                                 ),
+                                                SizedBox(height: 10),
                                               ],
                                             ),
                                           ),
@@ -913,41 +914,37 @@ class _userPageState extends State<userPage> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Stack(
-                                                      children: [
-                                                        Image.asset(
-                                                          'assets/trait_4.png',
-                                                          width: 32,
-                                                          height: 32,
-                                                        ),
-                                                        Positioned(
-                                                          top: 4,
-                                                          left: 4,
-                                                          child: SvgPicture.asset(
-                                                            'assets/darkin.svg',
-                                                            width: 24,
-                                                            height: 24,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Stack(
-                                                      children: [
-                                                        Image.asset(
-                                                          'assets/trait_4.png',
-                                                          width: 32,
-                                                          height: 32,
-                                                        ),
-                                                        Positioned(
-                                                          top: 4,
-                                                          left: 4,
-                                                          child: SvgPicture.asset(
-                                                            'assets/darkin.svg',
-                                                            width: 24,
-                                                            height: 24,
-                                                          ),
-                                                        )
-                                                      ],
+                                                    Container(
+                                                      height: 36,
+                                                      child: ListView.separated(
+                                                        shrinkWrap: true,
+                                                        scrollDirection: Axis.horizontal,
+                                                        itemCount: widget.trait[index].length,
+                                                        itemBuilder: (context, index2) {
+                                                          return Container(
+                                                            width: 28,
+                                                            child: Stack(
+                                                              children: [
+                                                                Image.asset(
+                                                                  'assets/trait_${widget.trait[index][widget.trait[index].keys.toList()[index2]]}.png',
+                                                                  width: 28,
+                                                                  height: 28,
+                                                                ),
+                                                                Positioned(
+                                                                  top: 4,
+                                                                  left: 4,
+                                                                  child: SvgPicture.asset(
+                                                                    'assets/' + widget.trait[index].keys.toList()[index2] +'.svg',
+                                                                    width: 20,
+                                                                    height: 20,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 2),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
