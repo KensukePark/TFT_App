@@ -950,7 +950,29 @@ class _userPageState extends State<userPage> {
                                                     ),
                                                   ],
                                                 ),
-
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 36,
+                                                      child: ListView.separated(
+                                                        shrinkWrap: true,
+                                                        scrollDirection: Axis.horizontal,
+                                                        itemCount: widget.unit[index].length,
+                                                        itemBuilder: (context, index3) {
+                                                          return Container(
+                                                            width: 24,
+                                                            child: Image.asset(
+                                                              'assets/' + widget.unit[index][index3][0] + '.png',
+                                                              width: 24,
+                                                              height: 24,
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 1),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ],
                                             ),
                                           ),
