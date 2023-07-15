@@ -23,7 +23,8 @@ class userPage extends StatefulWidget {
     required this.trait,
     required this.queue,
     required this.eli_time,
-    required this.when}) : super(key: key);
+    required this.when,
+    required this.unit}) : super(key: key);
   final data;
   final result;
   final region;
@@ -36,6 +37,7 @@ class userPage extends StatefulWidget {
   final queue;
   final eli_time;
   final when;
+  final unit;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -943,11 +945,12 @@ class _userPageState extends State<userPage> {
                                                             ),
                                                           );
                                                         },
-                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 2),
+                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 1),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
+
                                               ],
                                             ),
                                           ),
