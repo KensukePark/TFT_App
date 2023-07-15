@@ -32,6 +32,7 @@ class _searchingPageState extends State<searchingPage> {
   var queue = [];
   var eli_time = [];
   var when = [];
+  var unit = [];
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
     setState(() {
@@ -117,6 +118,17 @@ class _searchingPageState extends State<searchingPage> {
                 if (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'] < 1) continue;
                 temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'];
               }
+              var temp_2 = [];
+              for (int l=0; l<jsonDecode(response.body)['info']['participants'][j]['units'].length; l++) {
+                var champ_name = jsonDecode(response.body)['info']['participants'][j]['units'][l]['character_id'];
+                if (champ_name.length > 10 && champ_name.substring(5,9) == 'Ryze') champ_name = 'TFT9_Ryze';
+                //else champ_name = jsonDecode(response.body)['info']['participants'][j]['units'][l]['character_id'];
+                var champ_tier = jsonDecode(response.body)['info']['participants'][j]['units'][l]['tier'];
+                print(l);
+                temp_2.add([champ_name, champ_tier]);
+              }
+              unit.add(temp_2);
+              print('unit end');
               Map sorted_temp = Map.fromEntries(temp.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
               trait.add(sorted_temp);
               print(sorted_temp);
@@ -171,6 +183,16 @@ class _searchingPageState extends State<searchingPage> {
               print(queue),
               print(eli_time),
               print(when),
+              print(unit[0]),
+              print(unit[1]),
+              print(unit[2]),
+              print(unit[3]),
+              print(unit[4]),
+              print(unit[5]),
+              print(unit[6]),
+              print(unit[7]),
+              print(unit[8]),
+              print(unit[9]),
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
                 result: result,
                 data: user_data,
@@ -184,6 +206,7 @@ class _searchingPageState extends State<searchingPage> {
                 queue: queue,
                 eli_time: eli_time,
                 when: when,
+                unit: unit,
               )), (route) => false),
             }),
           }),
