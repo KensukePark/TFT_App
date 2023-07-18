@@ -871,7 +871,7 @@ class _userPageState extends State<userPage> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(height: 10),
+                                                SizedBox(height: 15),
                                                 Text(
                                                   '#${widget.rank_list[index]}',
                                                   style: TextStyle(
@@ -905,10 +905,11 @@ class _userPageState extends State<userPage> {
                                                       fontWeight: FontWeight.w400
                                                   ),
                                                 ),
-                                                SizedBox(height: 10),
+                                                SizedBox(height: 15),
                                               ],
                                             ),
                                           ),
+                                          SizedBox(width: 5),
                                           Expanded(
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.start,
@@ -917,28 +918,28 @@ class _userPageState extends State<userPage> {
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      height: 36,
+                                                      height: 24,
                                                       child: ListView.separated(
                                                         shrinkWrap: true,
                                                         scrollDirection: Axis.horizontal,
                                                         itemCount: widget.trait[index].length,
                                                         itemBuilder: (context, index2) {
                                                           return Container(
-                                                            width: 28,
+                                                            width: 24,
                                                             child: Stack(
                                                               children: [
                                                                 Image.asset(
                                                                   'assets/trait_${widget.trait[index][widget.trait[index].keys.toList()[index2]]}.png',
-                                                                  width: 28,
-                                                                  height: 28,
+                                                                  width: 24,
+                                                                  height: 24,
                                                                 ),
                                                                 Positioned(
                                                                   top: 4,
                                                                   left: 4,
                                                                   child: SvgPicture.asset(
                                                                     'assets/' + widget.trait[index].keys.toList()[index2] +'.svg',
-                                                                    width: 20,
-                                                                    height: 20,
+                                                                    width: 16,
+                                                                    height: 16,
                                                                   ),
                                                                 )
                                                               ],
@@ -950,25 +951,35 @@ class _userPageState extends State<userPage> {
                                                     ),
                                                   ],
                                                 ),
+                                                SizedBox(height: 2),
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      height: 36,
+                                                      height: 40,
                                                       child: ListView.separated(
                                                         shrinkWrap: true,
                                                         scrollDirection: Axis.horizontal,
                                                         itemCount: widget.unit[index].length,
                                                         itemBuilder: (context, index3) {
                                                           return Container(
-                                                            width: 24,
-                                                            child: Image.asset(
-                                                              'assets/' + widget.unit[index][index3][0] + '.png',
-                                                              width: 24,
-                                                              height: 24,
+                                                            width: 28,
+                                                            child: Column(
+                                                              children: [
+                                                                Image.asset(
+                                                                  'assets/star_${widget.unit[index][index3][1]}.png',
+                                                                  width: 28,
+                                                                  height: 10
+                                                                ),
+                                                                Image.asset(
+                                                                  'assets/' + widget.unit[index][index3][0] + '.png',
+                                                                  width: 28,
+                                                                  height: 28,
+                                                                ),
+                                                              ],
                                                             ),
                                                           );
                                                         },
-                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 1),
+                                                        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: 1.5),
                                                       ),
                                                     ),
                                                   ],
