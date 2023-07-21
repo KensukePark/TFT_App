@@ -4,7 +4,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
-
 import 'package:tft_app/screen/user_page.dart';
 
 class searchingPage extends StatefulWidget {
@@ -45,7 +44,6 @@ class _searchingPageState extends State<searchingPage> {
     _loadData();
   }
   String readTimestamp(int timestamp) {
-
     var now = DateTime.now();
     var format = DateFormat('HH:mm a');
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp);
@@ -122,16 +120,12 @@ class _searchingPageState extends State<searchingPage> {
               for (int l=0; l<jsonDecode(response.body)['info']['participants'][j]['units'].length; l++) {
                 var champ_name = jsonDecode(response.body)['info']['participants'][j]['units'][l]['character_id'];
                 if (champ_name.length > 10 && champ_name.substring(5,9) == 'Ryze') champ_name = 'TFT9_Ryze';
-                //else champ_name = jsonDecode(response.body)['info']['participants'][j]['units'][l]['character_id'];
                 var champ_tier = jsonDecode(response.body)['info']['participants'][j]['units'][l]['tier'];
-                print(l);
                 temp_2.add([champ_name, champ_tier]);
               }
               unit.add(temp_2);
-              print('unit end');
               Map sorted_temp = Map.fromEntries(temp.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
               trait.add(sorted_temp);
-              print(sorted_temp);
               rank_list.add(rank_temp);
               var time_temp = jsonDecode(response.body)['info']['participants'][j]['time_eliminated'].floor();
               eli_time.add('${time_temp~/60}:${time_temp%60}');
@@ -173,26 +167,9 @@ class _searchingPageState extends State<searchingPage> {
       _API_2().then((value) => {
         url3 = Uri.parse('https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/' + user_data['puuid'] +'/ids?start=0&count=10'),
         _API_3().then((value) => {
-          print(match_list),
           _API_4().then((value) => {
-            print(rank_list),
             url5 = Uri.parse('https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/' + enc_id),
             _API_5().then((value) => {
-              print(turbo_rank),
-              print(doubleup_rank),
-              print(queue),
-              print(eli_time),
-              print(when),
-              print(unit[0]),
-              print(unit[1]),
-              print(unit[2]),
-              print(unit[3]),
-              print(unit[4]),
-              print(unit[5]),
-              print(unit[6]),
-              print(unit[7]),
-              print(unit[8]),
-              print(unit[9]),
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute (builder: (BuildContext context) => userPage(
                 result: result,
                 data: user_data,
