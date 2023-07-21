@@ -6,7 +6,6 @@ import 'package:tft_app/screen/community_page.dart';
 import 'package:tft_app/screen/ranking_page.dart';
 import 'package:tft_app/screen/searching_page.dart';
 import 'package:tft_app/screen/tool_page.dart';
-
 import 'guide_page.dart';
 import 'meta_page.dart';
 
