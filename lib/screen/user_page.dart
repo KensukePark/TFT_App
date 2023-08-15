@@ -24,7 +24,8 @@ class userPage extends StatefulWidget {
     required this.queue,
     required this.eli_time,
     required this.when,
-    required this.unit}) : super(key: key);
+    required this.unit,
+    required this.item,}) : super(key: key);
   final data;
   final result;
   final region;
@@ -38,6 +39,7 @@ class userPage extends StatefulWidget {
   final eli_time;
   final when;
   final unit;
+  final item;
   @override
   State<userPage> createState() => _userPageState();
 }
@@ -63,6 +65,7 @@ class _userPageState extends State<userPage> {
   late var percent;
   late var games;
   late String user_tier;
+  int item_idx = 0;
   @override
   Widget build(BuildContext context) {
     icon_url = 'https://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${widget.data['profileIconId']}.png';
@@ -975,6 +978,30 @@ class _userPageState extends State<userPage> {
                                                                   width: 28,
                                                                   height: 28,
                                                                 ),
+                                                                /*
+                                                                widget.item[index][item_idx][0] == index3 ?
+                                                                Row(
+                                                                  children: [
+                                                                    ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      scrollDirection: Axis.horizontal,
+                                                                      itemCount: widget.item[index][item_idx].length - 1,
+                                                                      itemBuilder: (context, index4) {
+                                                                        return Container(
+                                                                          height: 10,
+                                                                          child: Image.asset(
+                                                                            'assets/' + widget.item[index][item_idx][index4+1] + '.png',
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ) :
+                                                                SizedBox(
+                                                                  //나중에 박스 크기 설정
+                                                                ),
+
+                                                                 */
                                                               ],
                                                             ),
                                                           );

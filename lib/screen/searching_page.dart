@@ -17,21 +17,27 @@ class searchingPage extends StatefulWidget {
 }
 
 class _searchingPageState extends State<searchingPage> {
-  String file_loc = 'assets/api_key.txt';
-  String keys = '';
-  var enc_id;
-  var icon;
-  var user_data;
-  var result;
-  var match_list;
-  var doubleup_rank = [];
-  var turbo_rank = [];
-  List<int> rank_list = [];
-  var trait = [];
-  var queue = [];
-  var eli_time = [];
-  var when = [];
-  var unit = [];
+  String file_loc = 'assets/api_key.txt'; //API KEY 파일 위치
+  String keys = ''; //Riot API 키
+  var enc_id; //유저 암호화 ID
+  var icon; //유저 소환사 아이콘 코드
+  var user_data; //
+  var result; //일반 모드 랭크 정보
+  var match_list; //최근 경기 정보
+  var doubleup_rank = []; //더블업 모드 랭크 정보
+  var turbo_rank = []; //초고속 모드 랭크 정보
+  List<int> rank_list = []; //최근 경기 등수
+  var trait = []; //최근 경기 특성
+  var queue = []; //최근 경기 게임 모드
+  var eli_time = []; //최근 경기 플레이 타임
+  var when = []; //최근 경기 날짜
+  var unit = []; //최근 경기 사용 유닛
+  var item = []; //최근 경기 사용 아이템
+
+  /*
+  함수명 _loadData
+  기능 : API 키 로드 함수
+  */
   void _loadData() async {
     final _loadedData = await rootBundle.loadString('assets/api_key.txt');
     setState(() {
@@ -43,6 +49,10 @@ class _searchingPageState extends State<searchingPage> {
     super.initState();
     _loadData();
   }
+  /*
+  함수명 : readTimestamp
+  기능 : 유닉스 시간을 실제 시간으로 변환하는 함수
+  */
   String readTimestamp(int timestamp) {
     var now = DateTime.now();
     var format = DateFormat('HH:mm a');
@@ -62,7 +72,7 @@ class _searchingPageState extends State<searchingPage> {
   }
   @override
   Widget build(BuildContext context) {
-    var encoded_id = Uri.encodeComponent(widget.id);
+    var encoded_id = Uri.encodeComponent(widget.id); //암호화된 소환사 이름
     var url = Uri.parse('https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/' + encoded_id);
     var url2;
     var url3;
@@ -75,12 +85,20 @@ class _searchingPageState extends State<searchingPage> {
       "Origin": "https://developer.riotgames.com",
       "X-Riot-Token": keys,
     };
+    /*
+    함수명 : _API
+    기능 : 소환사 정보 로드 함수
+    */
     Future<void> _API() async {
       http.Response response = await http.get(url, headers: header);
       enc_id = jsonDecode(response.body)['id'];
       icon = jsonDecode(response.body)['profileIconId'];
       user_data = jsonDecode(response.body);
     }
+    /*
+    함수명 : _API_2
+    기능 : 솔로 랭크 정보 로드 함수
+    */
     Future<void> _API_2() async {
       http.Response response = await http.get(url2, headers: header);
       if (jsonDecode(response.body).length == 0) {
@@ -90,6 +108,10 @@ class _searchingPageState extends State<searchingPage> {
         result = jsonDecode(response.body)[0];
       }
     }
+    /*
+    함수명 : _API_3
+    기능 : 최근 경기의 ID를 로드
+    */
     Future<void> _API_3() async {
       http.Response response = await http.get(url3, headers: header);
       if (jsonDecode(response.body).length == 0) {
@@ -99,6 +121,10 @@ class _searchingPageState extends State<searchingPage> {
         match_list = jsonDecode(response.body);
       }
     }
+    /*
+    함수명 : _API_4
+    기능 : 최근 경기 정보 로드
+    */
     Future<void> _API_4() async {
       if (match_list.length == 0) {
         rank_list = [];
@@ -111,24 +137,37 @@ class _searchingPageState extends State<searchingPage> {
           for (int j=0; j<8; j++) {
             if (jsonDecode(response.body)['info']['participants'][j]['puuid'] == user_data['puuid']) {
               var rank_temp = jsonDecode(response.body)['info']['participants'][j]['placement'];
-              var temp = {};
+              var temp = {}; //특성 정보 임시 저장
               for (int k=0; k<jsonDecode(response.body)['info']['participants'][j]['traits'].length; k++) {
                 if (jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'] < 1) continue;
                 temp[jsonDecode(response.body)['info']['participants'][j]['traits'][k]['name']] = jsonDecode(response.body)['info']['participants'][j]['traits'][k]['style'];
               }
-              var temp_2 = [];
+              var temp_2 = []; //기물 정보 임시 저장
+              var temp_3 = []; //아이템 정보 임시 저장
               for (int l=0; l<jsonDecode(response.body)['info']['participants'][j]['units'].length; l++) {
                 var champ_name = jsonDecode(response.body)['info']['participants'][j]['units'][l]['character_id'];
                 if (champ_name.length > 10 && champ_name.substring(5,9) == 'Ryze') champ_name = 'TFT9_Ryze';
                 var champ_tier = jsonDecode(response.body)['info']['participants'][j]['units'][l]['tier'];
-                temp_2.add([champ_name, champ_tier]);
+                var temp_final = [champ_name, champ_tier];
+                //temp_2.add([champ_name, champ_tier]);
+                var temp_4 = [];
+                if (jsonDecode(response.body)['info']['participants'][j]['units'][l]['itemNames'].length != 0) {
+                  for (int m=0; m<jsonDecode(response.body)['info']['participants'][j]['units'][l]['itemNames'].length; m++) {
+                    temp_final.add(jsonDecode(response.body)['info']['participants'][j]['units'][l]['itemNames'][m]);
+                  }
+                }
+                temp_2.add(temp_final);
               }
+              print('유닛 시작');
+              print(temp_2);
+              print('유닛 엔드');
               unit.add(temp_2);
               Map sorted_temp = Map.fromEntries(temp.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
               trait.add(sorted_temp);
               rank_list.add(rank_temp);
               var time_temp = jsonDecode(response.body)['info']['participants'][j]['time_eliminated'].floor();
               eli_time.add('${time_temp~/60}:${time_temp%60}');
+              //item.add(temp_3);
               break;
             }
           }
@@ -136,10 +175,15 @@ class _searchingPageState extends State<searchingPage> {
           else if (jsonDecode(response.body)['info']['queue_id'] == 1100) queue.add('랭크');
           else if (jsonDecode(response.body)['info']['queue_id'] == 1130) queue.add('초고속');
           else if (jsonDecode(response.body)['info']['queue_id'] == 1160) queue.add('더블업');
+          else if (jsonDecode(response.body)['info']['queue_id'] == 1180) queue.add('영혼의 결투');
         }
       }
     }
-    Future<void> _API_5() async { //더블업, 초고속모드 랭크정보 수집
+    /*
+    함수명 : _API_5
+    기능 : 더블업, 초고속모드 랭크 정보 수집
+    */
+    Future<void> _API_5() async {
       http.Response response = await http.get(url5, headers: header);
       if (jsonDecode(response.body).length == 0) {
         doubleup_rank.add('unrank');
@@ -184,6 +228,7 @@ class _searchingPageState extends State<searchingPage> {
                 eli_time: eli_time,
                 when: when,
                 unit: unit,
+                item: item,
               )), (route) => false),
             }),
           }),
