@@ -8,8 +8,5 @@ Flutter 3.10.2 <br>
 Dart 3.0.2 <br>
 
 # Preview
-<p align="left"><img src="main.png" width="288" height="624"/>
-<img src="home_temp_02.png" width="288" height="624"/></p>
-<p align="left"><img src="cal_temp_02.png" width="288" height="624"/>
-<img src="stat_temp_02.png" width="288" height="624"/></p>
-
+<p align="left"><img src="tft_main.png" width="288" height="624"/>
+<img src="tft_search.png" width="288" height="624"/></p>
